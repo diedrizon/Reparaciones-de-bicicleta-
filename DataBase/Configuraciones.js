@@ -1,9 +1,9 @@
-// DataBase/Configuraciones.js
-
-import "react-native-get-random-values"; // Importar esto primero
+import "react-native-get-random-values";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { initializeAuth, getReactNativePersistence } from "firebase/auth";
+import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyANt1wfdm_0WkVVOyEl4mbGvZyAeUCM62A",
@@ -18,8 +18,13 @@ const firebaseConfig = {
 // Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 
+// Usa initializeAuth para inicializar Auth con persistencia en AsyncStorage
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+});
+
 // Inicializar Firestore y Storage
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-export { app, db, storage };
+export { app, db, storage, auth };
